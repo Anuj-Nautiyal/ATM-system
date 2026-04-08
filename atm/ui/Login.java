@@ -68,7 +68,8 @@ public class Login extends JFrame implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
         if (e.getSource() == submit){
-
+            setVisible(false);
+            new Menu().setVisible(true);
         } else if (e.getSource() == clear){
             cardField.setText("");
             pinField.setText("");
