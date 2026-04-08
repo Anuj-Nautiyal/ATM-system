@@ -1,11 +1,12 @@
 package atm.ui;
 
+import javax.swing.*;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
 
 
 public class Menu extends JFrame implements ActionListener{
@@ -57,7 +58,7 @@ public class Menu extends JFrame implements ActionListener{
         background.add(statement);
         statement.addActionListener(this);
 
-        pinchange = new JButton("Pin Change");
+        pinchange = new JButton("Change Pin");
         pinchange.setBounds(180, 350, 200, 30);
         pinchange.setFont(new Font("Raleway", Font.BOLD, 16));
         background.add(pinchange);
@@ -84,6 +85,12 @@ public class Menu extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == exit){
             System.exit(0);
+        } else if(ae.getSource() == deposit){
+            setVisible(false);
+            new DepositScreen().setVisible(true);
+        } else if(ae.getSource() == withdraw){
+            setVisible(false);
+            new WithdrawlScreen().setVisible(true);
         }
     }
     public static void main(String[] args) {
