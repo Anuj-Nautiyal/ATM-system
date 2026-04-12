@@ -75,7 +75,7 @@ public class LoginScreen extends JFrame implements ActionListener {
             Conn conn = new Conn();
             String cardnumber = cardField.getText(); // get the card number from login page
             String pinnumber = new String(pinField.getPassword()); // get password entered in login page
-            String query = "select * from login where cardnumber = '" + cardnumber + "'and pinnumber = '" + pinnumber + "'";
+            String query = "select * from login where cardnumber = '" + cardnumber + "'and pinnumber = '" + pinnumber + "'"; //45671234
             try {
                 ResultSet rs = conn.s.executeQuery(query);
                 if (rs.next()) {

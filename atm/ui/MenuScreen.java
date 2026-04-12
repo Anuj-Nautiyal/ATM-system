@@ -87,17 +87,16 @@ public class MenuScreen extends JFrame implements ActionListener{
             System.exit(0);
         } else if(ae.getSource() == deposit){
             setVisible(false);
-            new DepositScreen().setVisible(true);
+            new DepositScreen(this).setVisible(true);
         } else if(ae.getSource() == withdraw){
             setVisible(false);
-            new WithdrawlScreen().setVisible(true);
+            new WithdrawlScreen(this).setVisible(true);
         } else if(ae.getSource() == fastcash){
             setVisible(false);
-            new FastCashScreen().setVisible(true);
+            new FastCashScreen(this).setVisible(true);
+        } else if(ae.getSource() == pinchange){
+            setVisible(false);
+            new PinChangeScreen(this).setVisible(true);
         }
     }
-    public static void main(String[] args) {
-        new MenuScreen();
-    }
 }
-

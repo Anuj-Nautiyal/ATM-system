@@ -11,9 +11,11 @@ import java.awt.event.ActionListener;
 
 public class FastCashScreen extends JFrame implements ActionListener{
     JButton a1, a2, a3, a4, a5, a6, backButton;
+    private JFrame menuScreen;
 
-    FastCashScreen(){
+    FastCashScreen(JFrame menuScreen){
         setLayout(null);
+        this.menuScreen = menuScreen;
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("atm/ui/icons/atm-screen.jpg"));
         Image i2 = i1.getImage().getScaledInstance(800, 800, Image.SCALE_DEFAULT);
@@ -79,10 +81,7 @@ public class FastCashScreen extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == backButton){
             setVisible(false);
-            new MenuScreen().setVisible(true);
+            menuScreen.setVisible(true);
         }
-    }
-    public static void main(String[] args) {
-        new FastCashScreen();
     }
 }

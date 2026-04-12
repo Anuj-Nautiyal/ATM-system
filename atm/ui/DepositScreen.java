@@ -11,8 +11,10 @@ import java.awt.event.ActionListener;
 public class DepositScreen extends JFrame implements ActionListener{
     JButton backButton, depositButton;
     JTextField amountField;
+    private JFrame menuScreen;
 
-    DepositScreen(){
+    DepositScreen(JFrame menuScreen){
+        this.menuScreen = menuScreen;
         setLayout(null);
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("atm/ui/icons/atm-screen.jpg"));
@@ -54,10 +56,7 @@ public class DepositScreen extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == backButton){
             setVisible(false);
-            new MenuScreen().setVisible(true);
+            menuScreen.setVisible(true);
         }
-    }
-    public static void main(String[] args) {
-        new DepositScreen();
     }
 }
