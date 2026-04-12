@@ -9,10 +9,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class Menu extends JFrame implements ActionListener{
+public class MenuScreen extends JFrame implements ActionListener{
     JButton deposit, withdraw, balance, exit, fastcash, statement, pinchange;
 
-    Menu(){
+    MenuScreen(){
         setLayout(null);
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("atm/ui/icons/atm-screen.jpg"));
@@ -97,7 +97,7 @@ public class Menu extends JFrame implements ActionListener{
         }
     }
     public static void main(String[] args) {
-        new Menu();
+        new MenuScreen();
     }
 }
 
