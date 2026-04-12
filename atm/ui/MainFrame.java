@@ -14,6 +14,8 @@ public class MainFrame extends JFrame{
     private DepositScreen depositScreen;
     private FastCashScreen fastCashScreen;
     private PinChangeScreen pinChangeScreen;
+    private BalanceCheckScreen balanceCheckScreen;
+    private MiniStatementScreen miniStatementScreen;
 
     public MainFrame(){
         cardLayout = new CardLayout();
@@ -24,12 +26,16 @@ public class MainFrame extends JFrame{
         depositScreen = new DepositScreen(this);
         fastCashScreen = new FastCashScreen(this);
         pinChangeScreen = new PinChangeScreen(this);
+        balanceCheckScreen = new BalanceCheckScreen(this);
+        miniStatementScreen = new MiniStatementScreen(this);
 
         mainPanel.add(menuScreen, "MENU");
         mainPanel.add(depositScreen, "DEPOSIT");
         mainPanel.add(withdrawScreen, "WITHDRAW");
         mainPanel.add(fastCashScreen, "FASTCASH");
         mainPanel.add(pinChangeScreen, "PINCHANGE");
+        mainPanel.add(balanceCheckScreen, "BALANCE");
+        mainPanel.add(miniStatementScreen, "MINISTATEMENT");
 
         add(mainPanel);
 

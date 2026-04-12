@@ -93,6 +93,10 @@ public class MenuScreen extends JPanel implements ActionListener{
             mainFrame.showScreen("FASTCASH");
         } else if(ae.getSource() == pinchange){
             mainFrame.showScreen("PINCHANGE");
+        } else if(ae.getSource() == balance){
+            mainFrame.showScreen("BALANCE");
+        } else if(ae.getSource() == statement){
+            mainFrame.showScreen("MINISTATEMENT");
         }
     }
 }
