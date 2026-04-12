@@ -1,6 +1,10 @@
 package atm.ui;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,13 +12,13 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DepositScreen extends JFrame implements ActionListener{
+public class DepositScreen extends JPanel implements ActionListener{
     JButton backButton, depositButton;
     JTextField amountField;
-    private JFrame menuScreen;
+    private MainFrame mainFrame;
 
-    DepositScreen(JFrame menuScreen){
-        this.menuScreen = menuScreen;
+    DepositScreen(MainFrame mainFrame){
+        this.mainFrame = mainFrame;
         setLayout(null);
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("atm/ui/icons/atm-screen.jpg"));
@@ -46,17 +50,11 @@ public class DepositScreen extends JFrame implements ActionListener{
         backButton.setFont(new Font("Raleway", Font.BOLD, 16));
         background.add(backButton);
         backButton.addActionListener(this);
-
-        setSize(800, 800);
-        setLocation(350, 30);
-        setUndecorated(true);
-        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == backButton){
-            setVisible(false);
-            menuScreen.setVisible(true);
+            mainFrame.showScreen("MENU");
         }
     }
 }

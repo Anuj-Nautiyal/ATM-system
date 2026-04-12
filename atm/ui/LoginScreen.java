@@ -1,8 +1,14 @@
 package atm.ui;
 
-import javax.swing.*;
-
 import atm.database.Conn;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -79,8 +85,8 @@ public class LoginScreen extends JFrame implements ActionListener {
             try {
                 ResultSet rs = conn.s.executeQuery(query);
                 if (rs.next()) {
-                    setVisible(false);
-                    new MenuScreen().setVisible(true);
+                    dispose();
+                    new MainFrame();
                 } else {
                     JOptionPane.showMessageDialog(null, "Incorrect Card Number or Pin");
                 }

@@ -1,6 +1,9 @@
 package atm.ui;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,10 +12,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class MenuScreen extends JFrame implements ActionListener{
+public class MenuScreen extends JPanel implements ActionListener{
     JButton deposit, withdraw, balance, exit, fastcash, statement, pinchange;
+    private MainFrame mainFrame;
 
-    MenuScreen(){
+    MenuScreen(MainFrame mainFrame){
+        this.mainFrame = mainFrame;
         setLayout(null);
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("atm/ui/icons/atm-screen.jpg"));
@@ -75,28 +80,19 @@ public class MenuScreen extends JFrame implements ActionListener{
         exit.setFont(new Font("Raleway", Font.BOLD, 16));
         background.add(exit);
         exit.addActionListener(this);
-
-        setSize(800, 800);
-        setLocation(350, 30);
-        setUndecorated(true);
-        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == exit){
             System.exit(0);
         } else if(ae.getSource() == deposit){
-            setVisible(false);
-            new DepositScreen(this).setVisible(true);
+            mainFrame.showScreen("DEPOSIT");
         } else if(ae.getSource() == withdraw){
-            setVisible(false);
-            new WithdrawlScreen(this).setVisible(true);
+            mainFrame.showScreen("WITHDRAW");
         } else if(ae.getSource() == fastcash){
-            setVisible(false);
-            new FastCashScreen(this).setVisible(true);
+            mainFrame.showScreen("FASTCASH");
         } else if(ae.getSource() == pinchange){
-            setVisible(false);
-            new PinChangeScreen(this).setVisible(true);
+            mainFrame.showScreen("PINCHANGE");
         }
     }
 }

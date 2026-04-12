@@ -1,7 +1,5 @@
 package atm.ui;
 
-import atm.database.Conn;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -10,17 +8,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 
-public class PinChangeScreen extends JFrame implements ActionListener{
+public class PinChangeScreen extends JPanel implements ActionListener{
     JButton backButton, confirmButton;
     JPasswordField pinField, confirmField;
-    private JFrame menuScreen;
+    private MainFrame mainFrame;
 
-    PinChangeScreen(JFrame menuScreen){
-        this.menuScreen = menuScreen;
+    PinChangeScreen(MainFrame mainFrame){
+        this.mainFrame = mainFrame;
         setLayout(null);
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("atm/ui/icons/atm-screen.jpg"));
@@ -69,17 +67,11 @@ public class PinChangeScreen extends JFrame implements ActionListener{
         backButton.setFont(new Font("Raleway", Font.BOLD, 16));
         background.add(backButton);
         backButton.addActionListener(this);
-
-        setSize(800, 800);
-        setLocation(350, 30);
-        setUndecorated(true);
-        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == backButton){
-            setVisible(false);
-            menuScreen.setVisible(true);
+            mainFrame.showScreen("MENU");
         }
     }
 }

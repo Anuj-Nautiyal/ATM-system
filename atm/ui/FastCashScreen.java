@@ -1,6 +1,9 @@
 package atm.ui;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,13 +12,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
-public class FastCashScreen extends JFrame implements ActionListener{
+public class FastCashScreen extends JPanel implements ActionListener{
     JButton a1, a2, a3, a4, a5, a6, backButton;
-    private JFrame menuScreen;
+    private MainFrame mainFrame;
 
-    FastCashScreen(JFrame menuScreen){
+    FastCashScreen(MainFrame mainFrame){
         setLayout(null);
-        this.menuScreen = menuScreen;
+        this.mainFrame = mainFrame;
 
         ImageIcon i1 = new ImageIcon(ClassLoader.getSystemResource("atm/ui/icons/atm-screen.jpg"));
         Image i2 = i1.getImage().getScaledInstance(800, 800, Image.SCALE_DEFAULT);
@@ -71,17 +74,11 @@ public class FastCashScreen extends JFrame implements ActionListener{
         backButton.setFont(new Font("Raleway", Font.BOLD, 16));
         background.add(backButton);
         backButton.addActionListener(this);
-
-        setSize(800, 800);
-        setLocation(350, 30);
-        setUndecorated(true);
-        setVisible(true);
     }
 
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == backButton){
-            setVisible(false);
-            menuScreen.setVisible(true);
+            mainFrame.showScreen("MENU");
         }
     }
 }
