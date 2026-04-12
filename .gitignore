@@ -1,2 +1,4 @@
 out/
 *.jar
+config.properties
+.vscode/

@@ -54,7 +54,7 @@ public class WithdrawlScreen extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent ae){
         if(ae.getSource() == backButton){
             setVisible(false);
-            new Menu().setVisible(true);
+            new MenuScreen().setVisible(true);
         }
     }
     public static void main(String[] args) {
