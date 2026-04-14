@@ -11,12 +11,11 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-public class MenuScreen extends JPanel implements ActionListener{
+public class MenuScreen extends JPanel implements ActionListener {
     JButton deposit, withdraw, balance, exit, fastcash, statement, pinchange;
     private MainFrame mainFrame;
 
-    MenuScreen(MainFrame mainFrame){
+    MenuScreen(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(null);
 
@@ -30,13 +29,13 @@ public class MenuScreen extends JPanel implements ActionListener{
         JLabel title = new JLabel("DHAN BANK");
         title.setBounds(300, 120, 200, 100);
         title.setForeground(Color.WHITE);
-        title.setFont(new Font("System" , Font.BOLD, 30));
+        title.setFont(new Font("System", Font.BOLD, 30));
         background.add(title);
 
         JLabel text = new JLabel("Select your transaction");
         text.setBounds(320, 150, 250, 100);
         text.setForeground(Color.WHITE);
-        text.setFont(new Font("System" , Font.PLAIN, 14));
+        text.setFont(new Font("System", Font.PLAIN, 14));
         background.add(text);
 
         deposit = new JButton("Deposit");
@@ -82,20 +81,20 @@ public class MenuScreen extends JPanel implements ActionListener{
         exit.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent ae){
-        if(ae.getSource() == exit){
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == exit) {
             System.exit(0);
-        } else if(ae.getSource() == deposit){
+        } else if (ae.getSource() == deposit) {
             mainFrame.showScreen("DEPOSIT");
-        } else if(ae.getSource() == withdraw){
+        } else if (ae.getSource() == withdraw) {
             mainFrame.showScreen("WITHDRAW");
-        } else if(ae.getSource() == fastcash){
+        } else if (ae.getSource() == fastcash) {
             mainFrame.showScreen("FASTCASH");
-        } else if(ae.getSource() == pinchange){
+        } else if (ae.getSource() == pinchange) {
             mainFrame.showScreen("PINCHANGE");
-        } else if(ae.getSource() == balance){
+        } else if (ae.getSource() == balance) {
             mainFrame.showScreen("BALANCE");
-        } else if(ae.getSource() == statement){
+        } else if (ae.getSource() == statement) {
             mainFrame.showScreen("MINISTATEMENT");
         }
     }

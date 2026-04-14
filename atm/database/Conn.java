@@ -1,6 +1,6 @@
 package atm.database;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.Properties;
 import java.sql.*;
 
@@ -12,7 +12,8 @@ public class Conn {
     public Conn() {
         try {
             Properties props = new Properties();
-            props.load(new FileInputStream("config.properties"));
+            InputStream input = getClass().getResourceAsStream("/config.properties");
+            props.load(input);
 
             String url = props.getProperty("db.url");
             String username = props.getProperty("db.username");
@@ -22,7 +23,7 @@ public class Conn {
             s = c.createStatement();
         } catch (Exception ex) {
             System.out.println(ex);
-            System.out.println("access  denied");
+            ex.printStackTrace();
         }
     }
 }

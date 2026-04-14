@@ -1,6 +1,6 @@
 package atm.ui;
 
-import atm.database.Conn;
+import atm.database.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -81,7 +81,7 @@ public class LoginScreen extends JFrame implements ActionListener {
             Conn conn = new Conn();
             String cardnumber = cardField.getText(); // get the card number from login page
             String pinnumber = new String(pinField.getPassword()); // get password entered in login page
-            String query = "select * from login where cardnumber = '" + cardnumber + "'and pinnumber = '" + pinnumber + "'"; //45671234
+            String query = "select * from login where cardnumber = '" + cardnumber + "'and pinnumber = '" + pinnumber + "'"; // 45671234
             try {
                 ResultSet rs = conn.s.executeQuery(query);
                 if (rs.next()) {

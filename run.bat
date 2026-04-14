@@ -1,3 +1,4 @@
-javac -d out -cp "lib/*" atm/ui/*.java atm/database/*.java
+javac -d out -cp "Library/*" atm/ui/*.java atm/database/*.java 
 xcopy /s /q /y atm\ui\icons out\atm\ui\icons\
-java -cp "out;lib/*" atm.ui.LoginScreen
+
+java -cp "out;Library/*" atm.ui.LoginScreen
