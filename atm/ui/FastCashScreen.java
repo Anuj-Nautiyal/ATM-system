@@ -1,15 +1,22 @@
 package atm.ui;
 
+import atm.database.*;
+import java.sql.*;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import java.text.SimpleDateFormat;
+import java.text.SimpleDateFormat.*;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 public class FastCashScreen extends JPanel implements ActionListener {
     JButton a1, a2, a3, a4, a5, a6, backButton;
@@ -83,6 +90,37 @@ public class FastCashScreen extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == backButton) {
             mainFrame.showScreen("MENU");
+        }
+        else{
+            String amount = ((JButton)ae.getSource()).getText().substring(3);//to get the amount selected from the fastcashscreen
+            try{
+                Conn conn = new Conn();
+                ResultSet rs = conn.s.executeQuery("select * from bank where pinnumber = '"+pinnumber+"'");
+                int balance = 0;
+                while(rs.next()){
+                    if (rs.getString("type").equals("Deposit")){
+                        balance +=  Integer.parseInt(rs.getString("amount"));
+                    }
+                    else{
+
+                        balance -=  Integer.parseInt(rs.getString("amount"));
+                    }
+                }
+                if(ae.getSource() != backButton && balance < Integer.parseInt(amount)){  
+                     JOptionPane.showMessageDialog(null, "Insuffecient balance");
+                     return;
+                }
+
+                String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()); 
+                String query = "insert into bank values('" + pinnumber + "','" + date + "','Withdraw','" + amount + "')"; // to isnert into table
+                conn.s.executeUpdate(query);
+                JOptionPane.showMessageDialog(null, "Rs" + amount + "debited successfully");
+                mainFrame.showScreen("MENU");
+
+            }
+            catch(Exception e ){
+                System.out.println(e);
+            }
         }
     }
 }

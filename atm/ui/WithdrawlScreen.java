@@ -4,27 +4,31 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import atm.database.Conn;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 
-public class WithdrawlScreen extends JPanel implements ActionListener{
+public class WithdrawlScreen extends JPanel implements ActionListener {
     JButton backButton, WithdrawButton;
     JTextField amountField;
     private MainFrame mainFrame;
-    
-    private String pinnumber; //pinumber for the respective session
 
-    public void setpinnumber(String pinnumber){
+    private String pinnumber; // pinumber for the respective session
+
+    public void setpinnumber(String pinnumber) {
         this.pinnumber = pinnumber;
     }
 
-
-    WithdrawlScreen(MainFrame mainFrame){
+    WithdrawlScreen(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(null);
 
@@ -38,7 +42,7 @@ public class WithdrawlScreen extends JPanel implements ActionListener{
         JLabel text = new JLabel("Enter the amount to Withdraw :-");
         text.setBounds(170, 200, 400, 25);
         text.setForeground(Color.white);
-        text.setFont(new Font("System" , Font.BOLD, 20));
+        text.setFont(new Font("System", Font.BOLD, 20));
         background.add(text);
 
         amountField = new JTextField();
@@ -59,8 +63,41 @@ public class WithdrawlScreen extends JPanel implements ActionListener{
         backButton.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent ae){
-        if(ae.getSource() == backButton){
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == WithdrawButton) {
+            String number = amountField.getText();
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+
+            if (number.equals("")) {
+                JOptionPane.showMessageDialog(null, "Please enter a certain amount to withdraw");
+            } else {
+                try {
+                    Conn conn = new Conn();
+                    ResultSet rs = conn.s.executeQuery("select * from bank where pinnumber = '" + pinnumber + "'");
+                    int balance = 0;
+                    while (rs.next()) {
+                        if (rs.getString("type").equals("Deposit")) {
+                            balance += Integer.parseInt(rs.getString("amount"));
+                        } else {
+
+                            balance -= Integer.parseInt(rs.getString("amount"));
+                        }
+                    }
+                    if (ae.getSource() != backButton && balance < Integer.parseInt(number)) {
+                        JOptionPane.showMessageDialog(null, "Insuffecient balance");
+                        return;
+                    }
+
+
+                    String query = "insert into bank values('" + pinnumber + "','" + date + "','Withdraw','" + number + "')"; // to insert action into table
+                    conn.s.executeUpdate(query); 
+                    JOptionPane.showMessageDialog(null, "Rs " + number + " Withdrawn Successfully");
+                    mainFrame.showScreen(("MENU"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (ae.getSource() == backButton) {
             mainFrame.showScreen("MENU");
         }
     }
