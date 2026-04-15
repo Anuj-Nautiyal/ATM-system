@@ -12,7 +12,7 @@ public class Conn {
     public Conn() {
         try {
             Properties props = new Properties();
-            InputStream input = getClass().getResourceAsStream("/config.properties");
+            InputStream input = new java.io.FileInputStream("config.properties");
             props.load(input);
 
             String url = props.getProperty("db.url");

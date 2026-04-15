@@ -20,7 +20,7 @@ public class DepositScreen extends JPanel implements ActionListener {
     JTextField amountField;
     private MainFrame mainFrame;
 
-    private String pinnumber; // pinumber for the respetive session
+    private String pinnumber; // pinumber for the respective session
 
     public void setpinnumber(String pinnumber) {
         this.pinnumber = pinnumber;
@@ -63,8 +63,6 @@ public class DepositScreen extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        depositButton.addActionListener(e -> System.out.println("RAW CLICK"));
-        System.out.println("Click detected from: " + ae.getSource().getClass().getName());
         if (ae.getSource() == depositButton) {
             System.out.println("Deposit button logic triggered!");
             String number = amountField.getText();
@@ -78,14 +76,13 @@ public class DepositScreen extends JPanel implements ActionListener {
                     String query = "insert into bank values('" + pinnumber + "','" + date + "','Deposit','" + number
                             + "')";
                     conn.s.executeUpdate(query);
-                    JOptionPane.showMessageDialog(null, "Rs" + number + "Deposited Successfully");
+                    JOptionPane.showMessageDialog(null, "Rs " + number + " Deposited Successfully");
                     mainFrame.showScreen(("MENU"));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         } else if (ae.getSource() == backButton) {
-
             mainFrame.showScreen("MENU");
         }
     }

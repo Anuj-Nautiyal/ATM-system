@@ -15,19 +15,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-
-
 public class LoginScreen extends JPanel implements ActionListener {
     JButton submit, clear;
     JTextField cardField;
     JPasswordField pinField;
     private MainFrame mainFrame;
-
-    public String pinnumber; // pinumber for the respetive session
-
-    public void setpinnumber(String pinnumber) {
-        this.pinnumber = pinnumber;
-    }
 
     LoginScreen(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
@@ -80,7 +72,6 @@ public class LoginScreen extends JPanel implements ActionListener {
         clear.setForeground(Color.white);
         clear.addActionListener(this);
         add(clear);
-
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -89,13 +80,12 @@ public class LoginScreen extends JPanel implements ActionListener {
             String cardnumber = cardField.getText(); // get the card number from login page
             String pinnumber = new String(pinField.getPassword()); // get password entered in login page
             String query = "select * from login where cardnumber = '" + cardnumber + "'and pinnumber = '" + pinnumber
-                    + "'"; // 45671234
+                    + "'";
             try {
                 ResultSet rs = conn.s.executeQuery(query);
                 if (rs.next()) {
                     String pin = rs.getString("pinnumber");
-                    mainFrame.setSessionPin(pin);// push pin to all
-                    mainFrame.showScreen("MENU");// swithc to menu
+                    mainFrame.onLoginSuccess(pin);// change the frame after successfully login
                 } else {
                     JOptionPane.showMessageDialog(null, "Incorrect Card Number or Pin");
                 }
@@ -107,11 +97,4 @@ public class LoginScreen extends JPanel implements ActionListener {
             pinField.setText("");
         }
     }
-
-
-
-//      public static void main(String[] args) {
-//         public MainFrame mainFrame;
-//         new LoginScreen( MainFrame mainFrame);
-//      }
  }

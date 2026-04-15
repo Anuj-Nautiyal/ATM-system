@@ -15,7 +15,7 @@ public class BalanceCheckScreen extends JPanel implements ActionListener{
     JButton backButton;
     private MainFrame mainFrame;
     
-    private String pinnumber; //pinumber for the respetive session
+    private String pinnumber; //pinumber for the respective session
 
     public void setpinnumber(String pinnumber){
         this.pinnumber = pinnumber;

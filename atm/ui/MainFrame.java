@@ -6,11 +6,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MainFrame extends JFrame{
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 800;
+
     private CardLayout cardLayout;
     private JPanel mainPanel;
-    
 
-    private LoginScreen LoginScreen;
+    private LoginScreen loginScreen;
     private MenuScreen menuScreen; 
     private WithdrawlScreen withdrawScreen;
     private DepositScreen depositScreen;
@@ -18,19 +20,26 @@ public class MainFrame extends JFrame{
     private PinChangeScreen pinChangeScreen;
     private BalanceCheckScreen balanceCheckScreen;
     private MiniStatementScreen miniStatementScreen;
-   
-    private String currentpin;
 
     public MainFrame(){
-        setTitle("Dhan Bank ATM");
-        setSize(800, 800);
-        setLocation(350,30);
+        setLocation(350, 150);
+        setSize(800,500);
         setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        loginScreen = new LoginScreen(this); //pass this so login can call setSessionpin
+        setContentPane(loginScreen); //separates the login screen from the mainFrame
+
+        setVisible(true);
+    }
+
+    public void onLoginSuccess(String pin){
+        setSize(800, 800);
+        setLocationRelativeTo(null);
+        
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-
-        LoginScreen = new LoginScreen(this); //pass this so login can call setSessionpin
+        
         menuScreen = new MenuScreen(this);
         withdrawScreen = new WithdrawlScreen(this);
         depositScreen = new DepositScreen(this);
@@ -39,7 +48,8 @@ public class MainFrame extends JFrame{
         balanceCheckScreen = new BalanceCheckScreen(this);
         miniStatementScreen = new MiniStatementScreen(this);
 
-        mainPanel.add(LoginScreen, "LOGIN");
+        setSessionPin(pin);
+
         mainPanel.add(menuScreen, "MENU");
         mainPanel.add(depositScreen, "DEPOSIT");
         mainPanel.add(withdrawScreen, "WITHDRAW");
@@ -48,20 +58,13 @@ public class MainFrame extends JFrame{
         mainPanel.add(balanceCheckScreen, "BALANCE");
         mainPanel.add(miniStatementScreen, "MINISTATEMENT");
 
-        add(mainPanel);
-
-        setSize(800, 800);
-        setLocation(350, 30);
-        setUndecorated(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-
-        showScreen("LOGIN");
+        setContentPane(mainPanel);
+        revalidate(); //recalculates all sizes and positions after changing the screen size
+        showScreen("MENU");
     }
     
     public void setSessionPin(String pin){
-        this.currentpin =pin;
-        menuScreen.setpinnumber(pin);
         depositScreen.setpinnumber(pin);
         withdrawScreen.setpinnumber(pin);
         fastCashScreen.setpinnumber(pin);
@@ -72,10 +75,9 @@ public class MainFrame extends JFrame{
 
     public void showScreen(String screen){
         cardLayout.show(mainPanel, screen);
+        setLocationRelativeTo(null);
     }
-    
     public static void main(String[] args){
         new MainFrame();
     }
 }
-

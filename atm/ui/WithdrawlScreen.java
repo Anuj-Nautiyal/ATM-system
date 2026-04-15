@@ -17,7 +17,7 @@ public class WithdrawlScreen extends JPanel implements ActionListener{
     JTextField amountField;
     private MainFrame mainFrame;
     
-    private String pinnumber; //pinumber for the respetive session
+    private String pinnumber; //pinumber for the respective session
 
     public void setpinnumber(String pinnumber){
         this.pinnumber = pinnumber;

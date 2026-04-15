@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 public class FastCashScreen extends JPanel implements ActionListener {
     JButton a1, a2, a3, a4, a5, a6, backButton;
     private MainFrame mainFrame;
-    private String pinnumber; // pinumber for the respetive session
+    private String pinnumber; // pinumber for the respective session
 
     public void setpinnumber(String pinnumber) {
         this.pinnumber = pinnumber;

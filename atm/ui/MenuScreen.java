@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -14,13 +15,6 @@ import java.awt.event.ActionListener;
 public class MenuScreen extends JPanel implements ActionListener {
     JButton deposit, withdraw, balance, exit, fastcash, statement, pinchange;
     private MainFrame mainFrame;
-
-    private String pinnumber; //pinumber for the respetive session
-
-    public void setpinnumber(String pinnumber){
-        this.pinnumber = pinnumber;
-    }
-
 
     MenuScreen(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
