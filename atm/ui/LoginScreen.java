@@ -4,7 +4,8 @@ import atm.database.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
+//import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -14,13 +15,22 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-public class LoginScreen extends JFrame implements ActionListener {
+
+
+public class LoginScreen extends JPanel implements ActionListener {
     JButton submit, clear;
     JTextField cardField;
     JPasswordField pinField;
+    private MainFrame mainFrame;
 
-    LoginScreen() {
-        setTitle("ATM-system");
+    public String pinnumber; // pinumber for the respetive session
+
+    public void setpinnumber(String pinnumber) {
+        this.pinnumber = pinnumber;
+    }
+
+    LoginScreen(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
         setLayout(null);
 
         ImageIcon icon1 = new ImageIcon(ClassLoader.getSystemResource("atm/ui/icons/logo.png"));
@@ -71,9 +81,6 @@ public class LoginScreen extends JFrame implements ActionListener {
         clear.addActionListener(this);
         add(clear);
 
-        setSize(800, 550);
-        setVisible(true);
-        setLocation(350, 200);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -81,12 +88,14 @@ public class LoginScreen extends JFrame implements ActionListener {
             Conn conn = new Conn();
             String cardnumber = cardField.getText(); // get the card number from login page
             String pinnumber = new String(pinField.getPassword()); // get password entered in login page
-            String query = "select * from login where cardnumber = '" + cardnumber + "'and pinnumber = '" + pinnumber + "'"; // 45671234
+            String query = "select * from login where cardnumber = '" + cardnumber + "'and pinnumber = '" + pinnumber
+                    + "'"; // 45671234
             try {
                 ResultSet rs = conn.s.executeQuery(query);
                 if (rs.next()) {
-                    dispose();
-                    new MainFrame();
+                    String pin = rs.getString("pinnumber");
+                    mainFrame.setSessionPin(pin);// push pin to all
+                    mainFrame.showScreen("MENU");// swithc to menu
                 } else {
                     JOptionPane.showMessageDialog(null, "Incorrect Card Number or Pin");
                 }
@@ -99,7 +108,10 @@ public class LoginScreen extends JFrame implements ActionListener {
         }
     }
 
-    public static void main(String[] args) {
-        new LoginScreen();
-    }
-}
+
+
+//      public static void main(String[] args) {
+//         public MainFrame mainFrame;
+//         new LoginScreen( MainFrame mainFrame);
+//      }
+ }

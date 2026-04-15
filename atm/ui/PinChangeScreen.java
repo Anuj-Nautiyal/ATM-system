@@ -17,6 +17,13 @@ public class PinChangeScreen extends JPanel implements ActionListener{
     JPasswordField pinField, confirmField;
     private MainFrame mainFrame;
 
+    private String pinnumber; //pinumber for the respetive session
+
+    public void setpinnumber(String pinnumber){
+        this.pinnumber = pinnumber;
+    }
+
+
     PinChangeScreen(MainFrame mainFrame){
         this.mainFrame = mainFrame;
         setLayout(null);

@@ -11,12 +11,16 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-public class FastCashScreen extends JPanel implements ActionListener{
+public class FastCashScreen extends JPanel implements ActionListener {
     JButton a1, a2, a3, a4, a5, a6, backButton;
     private MainFrame mainFrame;
+    private String pinnumber; // pinumber for the respetive session
 
-    FastCashScreen(MainFrame mainFrame){
+    public void setpinnumber(String pinnumber) {
+        this.pinnumber = pinnumber;
+    }
+
+    FastCashScreen(MainFrame mainFrame) {
         setLayout(null);
         this.mainFrame = mainFrame;
 
@@ -30,7 +34,7 @@ public class FastCashScreen extends JPanel implements ActionListener{
         JLabel title = new JLabel("SELECT your Withdrawl amount");
         title.setBounds(250, 150, 350, 100);
         title.setForeground(Color.WHITE);
-        title.setFont(new Font("System" , Font.BOLD, 20));
+        title.setFont(new Font("System", Font.BOLD, 20));
         background.add(title);
 
         a1 = new JButton("Rs 100");
@@ -76,8 +80,8 @@ public class FastCashScreen extends JPanel implements ActionListener{
         backButton.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent ae){
-        if(ae.getSource() == backButton){
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == backButton) {
             mainFrame.showScreen("MENU");
         }
     }

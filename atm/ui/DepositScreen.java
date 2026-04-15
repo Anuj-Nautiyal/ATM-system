@@ -1,10 +1,13 @@
 package atm.ui;
 
+import atm.database.*;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import java.text.SimpleDateFormat;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -12,12 +15,18 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class DepositScreen extends JPanel implements ActionListener{
+public class DepositScreen extends JPanel implements ActionListener {
     JButton backButton, depositButton;
     JTextField amountField;
     private MainFrame mainFrame;
 
-    DepositScreen(MainFrame mainFrame){
+    private String pinnumber; // pinumber for the respetive session
+
+    public void setpinnumber(String pinnumber) {
+        this.pinnumber = pinnumber;
+    }
+
+    DepositScreen(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(null);
 
@@ -26,12 +35,13 @@ public class DepositScreen extends JPanel implements ActionListener{
         ImageIcon i3 = new ImageIcon(i2);
         JLabel background = new JLabel(i3);
         background.setBounds(0, 0, 800, 800);
+        background.setLayout(null);
         add(background);
 
         JLabel text = new JLabel("Enter the amount to be deposited :-");
         text.setBounds(170, 200, 400, 25);
         text.setForeground(Color.white);
-        text.setFont(new Font("System" , Font.BOLD, 20));
+        text.setFont(new Font("System", Font.BOLD, 20));
         background.add(text);
 
         amountField = new JTextField();
@@ -52,8 +62,30 @@ public class DepositScreen extends JPanel implements ActionListener{
         backButton.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent ae){
-        if(ae.getSource() == backButton){
+    public void actionPerformed(ActionEvent ae) {
+        depositButton.addActionListener(e -> System.out.println("RAW CLICK"));
+        System.out.println("Click detected from: " + ae.getSource().getClass().getName());
+        if (ae.getSource() == depositButton) {
+            System.out.println("Deposit button logic triggered!");
+            String number = amountField.getText();
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+
+            if (number.equals("")) {
+                JOptionPane.showMessageDialog(null, "Please enter a certain amount to deposit");
+            } else {
+                try {
+                    Conn conn = new Conn();
+                    String query = "insert into bank values('" + pinnumber + "','" + date + "','Deposit','" + number
+                            + "')";
+                    conn.s.executeUpdate(query);
+                    JOptionPane.showMessageDialog(null, "Rs" + number + "Deposited Successfully");
+                    mainFrame.showScreen(("MENU"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else if (ae.getSource() == backButton) {
+
             mainFrame.showScreen("MENU");
         }
     }

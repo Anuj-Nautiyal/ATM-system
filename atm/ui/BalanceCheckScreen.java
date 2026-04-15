@@ -14,6 +14,13 @@ import java.awt.event.ActionListener;
 public class BalanceCheckScreen extends JPanel implements ActionListener{
     JButton backButton;
     private MainFrame mainFrame;
+    
+    private String pinnumber; //pinumber for the respetive session
+
+    public void setpinnumber(String pinnumber){
+        this.pinnumber = pinnumber;
+    }
+
 
     BalanceCheckScreen(MainFrame mainFrame){
         this.mainFrame = mainFrame;
