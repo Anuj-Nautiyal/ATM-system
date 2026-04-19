@@ -1,5 +1,6 @@
 package atm.ui;
 
+import atm.database.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -10,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 public class PinChangeScreen extends JPanel implements ActionListener{
@@ -77,6 +79,44 @@ public class PinChangeScreen extends JPanel implements ActionListener{
     }
 
     public void actionPerformed(ActionEvent ae){
+        if (ae.getSource()==confirmButton){
+        try{
+            String npin = new String(pinField.getPassword());
+            String rpin = new String(confirmField.getPassword()); 
+
+            if(npin.equals("")){
+                 JOptionPane.showMessageDialog(null, "Please enter Pin");
+                 return;
+            }
+
+            if(rpin.equals("")){
+                 JOptionPane.showMessageDialog(null, "Please confirm Pin");
+                 return;
+            }
+
+            if(!npin.equals(rpin)){
+                 JOptionPane.showMessageDialog(null, "Entered Pin does not match");
+                 return;
+            }
+
+            Conn conn = new Conn();
+            String query = "update login set pinnumber = '"+rpin+"' where pinnumber ='"+pinnumber+"'";
+            String query1 = "update bank set pinnumber = '"+rpin+"' where pinnumber ='"+pinnumber+"'";
+            conn.s.executeUpdate(query1);
+            conn.s.executeUpdate(query);
+
+            //pushes the new pin to all the screens for the same session
+            mainFrame.setSessionPin(rpin);
+            JOptionPane.showMessageDialog(null, "pin changed successfully");
+            mainFrame.showScreen("MENU");
+
+
+        }
+
+       catch(Exception e){
+           e.printStackTrace();
+       }
+    }
         if(ae.getSource() == backButton){
             mainFrame.showScreen("MENU");
         }

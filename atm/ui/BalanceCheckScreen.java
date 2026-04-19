@@ -5,24 +5,26 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import atm.database.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
-public class BalanceCheckScreen extends JPanel implements ActionListener{
+public class BalanceCheckScreen extends JPanel implements ActionListener {
+    JLabel text;
     JButton backButton;
     private MainFrame mainFrame;
-    
-    private String pinnumber; //pinumber for the respective session
 
-    public void setpinnumber(String pinnumber){
+    private String pinnumber; // pinumber for the respective session
+
+    public void setpinnumber(String pinnumber) {
         this.pinnumber = pinnumber;
     }
 
-
-    BalanceCheckScreen(MainFrame mainFrame){
+    BalanceCheckScreen(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(null);
 
@@ -33,10 +35,10 @@ public class BalanceCheckScreen extends JPanel implements ActionListener{
         background.setBounds(0, 0, 800, 800);
         add(background);
 
-        JLabel text = new JLabel("Your current balance is Rs ");
+        text = new JLabel("Your current balance is Rs 0");
         text.setBounds(170, 200, 400, 25);
         text.setForeground(Color.white);
-        text.setFont(new Font("System" , Font.BOLD, 20));
+        text.setFont(new Font("System", Font.BOLD, 20));
         background.add(text);
 
         backButton = new JButton("Back");
@@ -44,11 +46,28 @@ public class BalanceCheckScreen extends JPanel implements ActionListener{
         backButton.setFont(new Font("Raleway", Font.BOLD, 16));
         background.add(backButton);
         backButton.addActionListener(this);
+
     }
 
-    public void actionPerformed(ActionEvent ae){
-        if(ae.getSource() == backButton){
+    public void updateBalance() {
+        int balance = 0;
+        try {
+            Conn conn = new Conn();
+            ResultSet rs = conn.s.executeQuery("Select balance from login where pinnumber ='" + pinnumber + "'");
+            if (rs.next()) {
+                balance = rs.getInt("balance");
+            }
+            text.setText("Your current balance is Rs " + balance);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == backButton) {
             mainFrame.showScreen("MENU");
         }
     }
+
 }
+

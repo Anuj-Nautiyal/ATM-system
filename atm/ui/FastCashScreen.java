@@ -1,7 +1,7 @@
 package atm.ui;
 
 import atm.database.*;
-import java.sql.*;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -9,8 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.text.SimpleDateFormat;
-import java.text.SimpleDateFormat.*;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -90,35 +88,43 @@ public class FastCashScreen extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         if (ae.getSource() == backButton) {
             mainFrame.showScreen("MENU");
-        }
-        else{
-            String amount = ((JButton)ae.getSource()).getText().substring(3);//to get the amount selected from the fastcashscreen
-            try{
+        } else {
+            String amount = ((JButton) ae.getSource()).getText().substring(3);// to get the amount selected from the
+                                                                              // fastcashscreen
+
+            try {
                 Conn conn = new Conn();
-                ResultSet rs = conn.s.executeQuery("select * from bank where pinnumber = '"+pinnumber+"'");
+
+                ResultSet rs = conn.s.executeQuery("select balance from login where pinnumber = '" + pinnumber + "'");
                 int balance = 0;
-                while(rs.next()){
-                    if (rs.getString("type").equals("Deposit")){
-                        balance +=  Integer.parseInt(rs.getString("amount"));
+                if (rs.next()) {
+                    balance = rs.getInt("balance");
+                    if (rs.wasNull()) {
+                        JOptionPane.showMessageDialog(null, "Insufficient balance");
+                        return;  //the logic does not move further if this block is executed
                     }
-                    else{
 
-                        balance -=  Integer.parseInt(rs.getString("amount"));
+                    else if (ae.getSource() != backButton && balance < Integer.parseInt(amount)) {
+                        JOptionPane.showMessageDialog(null, "Insufficient balance");
+                        return;   //the logic does not move further if this block is executed
                     }
-                }
-                if(ae.getSource() != backButton && balance < Integer.parseInt(amount)){  
-                     JOptionPane.showMessageDialog(null, "Insuffecient balance");
-                     return;
-                }
 
-                String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()); 
-                String query = "insert into bank values('" + pinnumber + "','" + date + "','Withdraw','" + amount + "')"; // to isnert into table
+                }
+                // set balance after debiting from fastcash screen
+                int newBalance = balance - Integer.parseInt(amount);
+
+                String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
+                String query = "insert into bank values('" + pinnumber + "','" + date + "','Withdraw','" + amount
+                        + "')"; // to insert into table
+
                 conn.s.executeUpdate(query);
+
                 JOptionPane.showMessageDialog(null, "Rs" + amount + "debited successfully");
+                String inbal = "update login set balance =" + newBalance + " where pinnumber = '" + pinnumber + "'";
+                conn.s.executeUpdate(inbal);
                 mainFrame.showScreen("MENU");
 
-            }
-            catch(Exception e ){
+            } catch (Exception e) {
                 System.out.println(e);
             }
         }
