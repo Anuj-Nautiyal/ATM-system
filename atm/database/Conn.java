@@ -20,10 +20,7 @@ public class Conn {
             String password = props.getProperty("db.password");
 
             c = DriverManager.getConnection(url, username, password);
-            s = c.createStatement(
-                ResultSet.TYPE_SCROLL_INSENSITIVE,
-                ResultSet.CONCUR_READ_ONLY
-            );
+            s = c.createStatement();
         } catch (Exception ex) {
             System.out.println(ex);
             ex.printStackTrace();
