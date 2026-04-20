@@ -74,6 +74,9 @@ public class MainFrame extends JFrame{
     }
 
     public void showScreen(String screen){
+        if(screen.equals("MINISTATEMENT")){
+            miniStatementScreen.updateMini();
+        }
         if (screen.equals("BALANCE")) {
         balanceCheckScreen.updateBalance();
     }
