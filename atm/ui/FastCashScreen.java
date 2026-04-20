@@ -89,8 +89,7 @@ public class FastCashScreen extends JPanel implements ActionListener {
         if (ae.getSource() == backButton) {
             mainFrame.showScreen("MENU");
         } else {
-            String amount = ((JButton) ae.getSource()).getText().substring(3);// to get the amount selected from the
-                                                                              // fastcashscreen
+            String amount = ((JButton) ae.getSource()).getText().substring(3);// to get the amount selected from the fastcashscreen
 
             try {
                 Conn conn = new Conn();
@@ -100,12 +99,12 @@ public class FastCashScreen extends JPanel implements ActionListener {
                 if (rs.next()) {
                     balance = rs.getInt("balance");
                     if (rs.wasNull()) {
-                        JOptionPane.showMessageDialog(null, "Insufficient balance");
+                        JOptionPane.showMessageDialog(null, "Insufficient balance!");
                         return;  //the logic does not move further if this block is executed
                     }
 
                     else if (ae.getSource() != backButton && balance < Integer.parseInt(amount)) {
-                        JOptionPane.showMessageDialog(null, "Insufficient balance");
+                        JOptionPane.showMessageDialog(null, "Insufficient balance!");
                         return;   //the logic does not move further if this block is executed
                     }
 
@@ -114,12 +113,11 @@ public class FastCashScreen extends JPanel implements ActionListener {
                 int newBalance = balance - Integer.parseInt(amount);
 
                 String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
-                String query = "insert into bank values('" + pinnumber + "','" + date + "','Withdraw','" + amount
-                        + "')"; // to insert into table
+                String query = "insert into bank(pinnumber, date, type, amount) values('" + pinnumber + "','" + date + "','Withdraw','" + amount + "')"; // to insert into table
 
                 conn.s.executeUpdate(query);
 
-                JOptionPane.showMessageDialog(null, "Rs" + amount + "debited successfully");
+                JOptionPane.showMessageDialog(null, "Rs " + amount + " debited successfully!");
                 String inbal = "update login set balance =" + newBalance + " where pinnumber = '" + pinnumber + "'";
                 conn.s.executeUpdate(inbal);
                 mainFrame.showScreen("MENU");

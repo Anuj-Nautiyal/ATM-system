@@ -70,30 +70,19 @@ public class DepositScreen extends JPanel implements ActionListener {
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
 
             if (number.equals("")) {
-                JOptionPane.showMessageDialog(null, "Please enter a certain amount to deposit");
+                JOptionPane.showMessageDialog(null, "Please enter a certain amount to deposit.");
             } else {
                 try {
                     Conn conn = new Conn();
 
                     // update the bank values table
-                    String query = "insert into bank values('" + pinnumber + "','" + date + "','Deposit','" + number
-                            + "')";
+                    String query = "insert into bank(pinnumber, date, type, amount) values('" + pinnumber + "','" + date + "','Deposit','" + number + "')";
 
                     conn.s.executeUpdate(query);
-                    JOptionPane.showMessageDialog(null, "Rs " + number + " Deposited Successfully");
+                    JOptionPane.showMessageDialog(null, "Rs " + number + " Deposited Successfully!");
 
                     ResultSet rs = conn.s.executeQuery("select balance from login where pinnumber = '" + pinnumber + "'");
 
-                    // int balance = 0;
-                    // while (rs.next()) {
-                    //     if (rs.getString("type").equals("Deposit")) {
-                    //         balance += Integer.parseInt(rs.getString("amount"));
-                    //     } else {
-
-                    //         balance -= Integer.parseInt(rs.getString("amount"));
-                    //     }
-
-                    // }
                     int balance=0;
                     if(rs.next()){
                         if(rs.wasNull()){
@@ -109,6 +98,7 @@ public class DepositScreen extends JPanel implements ActionListener {
                     String inbal = "update login set balance =" + newBalance + " where pinnumber = '" + pinnumber + "'";//update the balnce in the login table respective to the pinnumber
                     conn.s.executeUpdate(inbal);
 
+                    amountField.setText("");
                     mainFrame.showScreen(("MENU"));
                 } catch (Exception e) {
                     e.printStackTrace();

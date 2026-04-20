@@ -71,31 +71,43 @@ public class MiniStatementScreen extends JPanel implements ActionListener {
                 card.setText("Card Number = " + rs.getString("cardnumber").substring(0, 2) + "XXXX"
                         + rs.getString("cardnumber").substring(8));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try {
             Conn conn = new Conn();
-            ResultSet rs = conn.s
-                    .executeQuery("select * from bank where pinnumber ='" + pinnumber + "' order by date desc limit 5");
-            while (rs.next()) {
-                mini.setText(mini.getText() + "<html>" + rs.getString("date") + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                        + rs.getString("type") + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                        + rs.getString("amount") + "<br><br><html>");
-            }
 
+            // ORDER BY id DESC gives latest first, LIMIT 5 gives only last 5
+            ResultSet rs = conn.s.executeQuery(
+                    "SELECT * FROM bank WHERE pinnumber = '" + pinnumber +
+                            "' ORDER BY id DESC LIMIT 5");
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("<html><pre>");
+
+            while (rs.next()) {
+                String date = rs.getString("date");
+                String type = rs.getString("type");
+                String amount = rs.getString("amount");
+
+                // %-10s means left-align in a 10 character wide column
+                // this gives equal spacing regardless of "Deposit" or "Withdraw"
+                sb.append(String.format("%-15s %-12s %-10s", date, type, amount));
+                sb.append("<br>");
+            }
+            sb.append("</pre></html>");
+            mini.setText(sb.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         try {
             Conn conn = new Conn();
             ResultSet rs = conn.s.executeQuery("select balance from login where pinnumber = '" + pinnumber + "'");
             while (rs.next()) {
-                bal.setText("Balance = " + rs.getString("balance"));
+                bal.setText("Balance:- Rs " + rs.getString("balance"));
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }

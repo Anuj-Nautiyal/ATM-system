@@ -69,38 +69,38 @@ public class WithdrawlScreen extends JPanel implements ActionListener {
             String date = new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date());
 
             if (number.equals("")) {
-                JOptionPane.showMessageDialog(null, "Please enter a certain amount to withdraw");
+                JOptionPane.showMessageDialog(null, "Please enter a certain amount to withdraw!");
             } else {
                 try {
                     Conn conn = new Conn();
-                    ResultSet rs = conn.s
-                            .executeQuery("select balance from login where pinnumber = '" + pinnumber + "'");
+                    ResultSet rs = conn.s.executeQuery("select balance from login where pinnumber = '" + pinnumber + "'");
                     int balance = 0;
                     if (rs.next()) {
                         balance = rs.getInt("balance");
                         if (rs.wasNull()) {
-                            JOptionPane.showMessageDialog(null, "Insufficient balance");
+                            JOptionPane.showMessageDialog(null, "Insufficient balance!");
+                            amountField.setText(""); //empties the amountfield 
                             return; // the logic does not move further if this block is executed
                         }
 
                         else if (ae.getSource() != backButton && balance < Integer.parseInt(number)) {
-                            JOptionPane.showMessageDialog(null, "Insufficient balance");
+                            JOptionPane.showMessageDialog(null, "Insufficient balance!");
+                            amountField.setText("");
                             return;
                         }
 
                         // assign value by geting balance from login table later
-                        String query = "insert into bank values('" + pinnumber + "','" + date + "','Withdraw','"
-                                + number
-                                + "')"; // to insert action into table
+                        String query = "insert into bank(pinnumber, date, type, amount) values('" + pinnumber + "','" + date + "','Withdraw','" + number + "')"; // to insert action into table
 
                         // Calculate new balance after withdrawal
                         int newBalance = balance - Integer.parseInt(number);
 
                         conn.s.executeUpdate(query);
-                        JOptionPane.showMessageDialog(null, "Rs " + number + " Withdrawn Successfully");
-                        String inbal = "update login set balance =" + newBalance + " where pinnumber = '" + pinnumber
-                                + "'";
+                        JOptionPane.showMessageDialog(null, "Rs " + number + " Withdrawn Successfully!");
+                        String inbal = "update login set balance =" + newBalance + " where pinnumber = '" + pinnumber + "'";
                         conn.s.executeUpdate(inbal);
+
+                        amountField.setText("");
                         mainFrame.showScreen(("MENU"));
                     }
                 } catch (Exception e) {

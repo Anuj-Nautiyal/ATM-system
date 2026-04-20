@@ -14,19 +14,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
-public class PinChangeScreen extends JPanel implements ActionListener{
+public class PinChangeScreen extends JPanel implements ActionListener {
     JButton backButton, confirmButton;
     JPasswordField pinField, confirmField;
     private MainFrame mainFrame;
 
-    private String pinnumber; //pinumber for the respective session
+    private String pinnumber; // pinumber for the respective session
 
-    public void setpinnumber(String pinnumber){
+    public void setpinnumber(String pinnumber) {
         this.pinnumber = pinnumber;
     }
 
-
-    PinChangeScreen(MainFrame mainFrame){
+    PinChangeScreen(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(null);
 
@@ -40,13 +39,13 @@ public class PinChangeScreen extends JPanel implements ActionListener{
         JLabel title = new JLabel("Enter your new PIN");
         title.setBounds(300, 150, 350, 100);
         title.setForeground(Color.WHITE);
-        title.setFont(new Font("System" , Font.BOLD, 20));
+        title.setFont(new Font("System", Font.BOLD, 20));
         background.add(title);
 
         JLabel pintext = new JLabel("New PIN :");
         pintext.setBounds(180, 250, 350, 30);
         pintext.setForeground(Color.WHITE);
-        pintext.setFont(new Font("System" , Font.BOLD, 16));
+        pintext.setFont(new Font("System", Font.BOLD, 16));
         background.add(pintext);
 
         pinField = new JPasswordField();
@@ -57,7 +56,7 @@ public class PinChangeScreen extends JPanel implements ActionListener{
         JLabel confirmtext = new JLabel("Confirm PIN :");
         confirmtext.setBounds(180, 300, 350, 30);
         confirmtext.setForeground(Color.WHITE);
-        confirmtext.setFont(new Font("System" , Font.BOLD, 16));
+        confirmtext.setFont(new Font("System", Font.BOLD, 16));
         background.add(confirmtext);
 
         confirmField = new JPasswordField();
@@ -78,46 +77,63 @@ public class PinChangeScreen extends JPanel implements ActionListener{
         backButton.addActionListener(this);
     }
 
-    public void actionPerformed(ActionEvent ae){
-        if (ae.getSource()==confirmButton){
-        try{
-            String npin = new String(pinField.getPassword());
-            String rpin = new String(confirmField.getPassword()); 
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == confirmButton) {
+            try {
+                String npin = new String(pinField.getPassword());
+                String rpin = new String(confirmField.getPassword());
 
-            if(npin.equals("")){
-                 JOptionPane.showMessageDialog(null, "Please enter Pin");
-                 return;
+                if (npin.equals("")) {
+                    JOptionPane.showMessageDialog(null, "Please enter your Pin.");
+                    return;
+                }
+
+                if (npin.length() != 4) {
+                    JOptionPane.showMessageDialog(null, "Pin must be exactly 4 digits.");
+                    pinField.setText("");
+                    confirmField.setText("");
+                    return;
+                }
+
+                if (!npin.matches("[0-9]+")) {
+                    JOptionPane.showMessageDialog(null, "Pin must contain numbers only.");
+                    pinField.setText("");
+                    confirmField.setText("");
+                    return;
+                }
+
+                if (rpin.equals("")) {
+                    JOptionPane.showMessageDialog(null, "Please confirm your Pin.");
+                    return;
+                }
+
+                if (!npin.equals(rpin)) {
+                    JOptionPane.showMessageDialog(null, "Entered Pin does not match.");
+                    pinField.setText("");
+                    confirmField.setText("");
+                    return;
+                }
+
+                Conn conn = new Conn();
+                String query = "update login set pinnumber = '" + rpin + "' where pinnumber ='" + pinnumber + "'";
+                String query1 = "update bank set pinnumber = '" + rpin + "' where pinnumber ='" + pinnumber + "'";
+                conn.s.executeUpdate(query1);
+                conn.s.executeUpdate(query);
+
+                // pushes the new pin to all the screens for the same session
+                mainFrame.setSessionPin(rpin);
+                JOptionPane.showMessageDialog(null, "Pin changed Successfully!");
+
+                pinField.setText("");
+                confirmField.setText("");
+                mainFrame.showScreen("MENU");
             }
 
-            if(rpin.equals("")){
-                 JOptionPane.showMessageDialog(null, "Please confirm Pin");
-                 return;
+            catch (Exception e) {
+                e.printStackTrace();
             }
-
-            if(!npin.equals(rpin)){
-                 JOptionPane.showMessageDialog(null, "Entered Pin does not match");
-                 return;
-            }
-
-            Conn conn = new Conn();
-            String query = "update login set pinnumber = '"+rpin+"' where pinnumber ='"+pinnumber+"'";
-            String query1 = "update bank set pinnumber = '"+rpin+"' where pinnumber ='"+pinnumber+"'";
-            conn.s.executeUpdate(query1);
-            conn.s.executeUpdate(query);
-
-            //pushes the new pin to all the screens for the same session
-            mainFrame.setSessionPin(rpin);
-            JOptionPane.showMessageDialog(null, "pin changed successfully");
-            mainFrame.showScreen("MENU");
-
-
         }
-
-       catch(Exception e){
-           e.printStackTrace();
-       }
-    }
-        if(ae.getSource() == backButton){
+        if (ae.getSource() == backButton) {
             mainFrame.showScreen("MENU");
         }
     }
