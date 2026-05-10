@@ -6,9 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class MainFrame extends JFrame{
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 800;
-
     private CardLayout cardLayout;
     private JPanel mainPanel;
 
